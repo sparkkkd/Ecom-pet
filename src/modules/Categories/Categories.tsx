@@ -15,8 +15,6 @@ export default function Categories() {
 		dispatch(fetchCategories())
 	}, [])
 
-	console.log(error)
-
 	return (
 		<AnimatePresence>
 			<motion.nav variants={containerVariants} className={styles.wrapper}>

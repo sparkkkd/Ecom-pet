@@ -1,28 +1,33 @@
 import styles from './App.module.sass'
-import { Route, Routes } from 'react-router-dom'
+
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 
 // Pages
-import Home from './pages/Home'
+import Home from './pages/Home/Home'
+import Catalog from './pages/Catalog/Catalog'
 
 // Background noise img
 import backgroundImage from './images/noise-bg.jpg'
 import Header from './modules/Header/Header'
+
 import SearchBlock from './modules/SearchBlock/SearchBlock'
-import { AnimatePresence } from 'framer-motion'
 
 function App() {
-	return (
-		<AnimatePresence mode='wait'>
-			<div className={styles.app}>
-				<div className={styles.noise} style={{ backgroundImage: `url(${backgroundImage})` }}></div>
-				<Header />
-				<SearchBlock />
+	const location = useLocation()
 
-				<Routes>
+	return (
+		<div className={styles.app}>
+			<div className={styles.noise} style={{ backgroundImage: `url(${backgroundImage})` }}></div>
+			<Header />
+			<SearchBlock />
+			<AnimatePresence mode='wait'>
+				<Routes location={location} key={location.pathname}>
 					<Route path='/' element={<Home />} />
+					<Route path='/catalog' element={<Catalog />} />
 				</Routes>
-			</div>
-		</AnimatePresence>
+			</AnimatePresence>
+		</div>
 	)
 }
 

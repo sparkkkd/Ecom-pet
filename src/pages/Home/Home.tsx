@@ -1,9 +1,9 @@
 import styles from './Home.module.sass'
 
-import Categories from '../modules/Categories/Categories'
-import Container from '../modules/Container/Container'
+import Categories from '../../modules/Categories/Categories'
+import Container from '../../modules/Container/Container'
 import { Link } from 'react-router-dom'
-import Transition from '../components/Transition/Transition'
+import Transition from '../../components/Transition/Transition'
 
 export default function Home() {
 	return (
