@@ -3,8 +3,11 @@ import styles from './Categories.module.sass'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchCategories } from '../../store/slices/categoriesSlice'
 import { useEffect } from 'react'
-import Loader from '../../components/Loader/Loader'
+import Loader from '../../ui/Loader/Loader'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
+import ErrorText from '../../ui/ErrorText/ErrorText'
+import { toggleCategory } from '../../store/slices/userActionSlice'
+// import { fetchAllProducts, fetchProductsByCategory } from '../../store/slices/productSlice'
 
 export default function Categories() {
 	const { categories, isLoading, error } = useAppSelector((state) => state.categoriesSlice)
@@ -19,7 +22,7 @@ export default function Categories() {
 		<AnimatePresence>
 			<motion.nav variants={containerVariants} className={styles.wrapper}>
 				{isLoading && <Loader />}
-				{error && <span className={styles.error}>Can't load categories :(</span>}
+				{error && <ErrorText errorText={`Can't load categories :(`} />}
 				{categories.length ? <CategoriesList categories={categories} /> : null}
 			</motion.nav>
 		</AnimatePresence>
@@ -66,6 +69,12 @@ const containerVariants: Variants = {
 }
 
 function CategoriesList({ categories }: ICategoriesList) {
+	const dispatch = useAppDispatch()
+
+	const handleCategoryClick = (category: string) => {
+		dispatch(toggleCategory(category))
+	}
+
 	return (
 		<motion.ul
 			className={styles.list}
@@ -75,11 +84,20 @@ function CategoriesList({ categories }: ICategoriesList) {
 			exit='exit'
 		>
 			{categories.map((item) => (
-				<motion.li variants={variants} key={item} className={styles.item}>
+				<motion.li
+					variants={variants}
+					key={item}
+					className={styles.item}
+					onClick={() => handleCategoryClick(item)}
+				>
 					{item}
 				</motion.li>
 			))}
-			<motion.li variants={variants} className={styles.item}>
+			<motion.li
+				variants={variants}
+				className={styles.item}
+				onClick={() => handleCategoryClick('')}
+			>
 				All
 			</motion.li>
 		</motion.ul>
