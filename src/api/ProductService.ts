@@ -9,4 +9,8 @@ export default class ProductService {
 	static async getByCategory(category: string) {
 		return $api.get<IProductCard[]>(`category/${category}`, { withCredentials: false })
 	}
+
+	static async getOne(id: number) {
+		return $api.get<IProductCard>(`/${id}`, { withCredentials: false })
+	}
 }

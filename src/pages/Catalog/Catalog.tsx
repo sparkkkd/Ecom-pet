@@ -4,11 +4,11 @@ import Transition from '../../components/Transition/Transition'
 import Container from '../../modules/Container/Container'
 import Categories from '../../modules/Categories/Categories'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import Loader from '../../ui/Loader/Loader'
 import ErrorText from '../../ui/ErrorText/ErrorText'
 
 import { useAppSelector } from '../../store/hooks'
 import { productSlice } from '../../store/slices/productSlice'
+import ProductCardSkeleton from '../../ui/ProductCardSkeleton/ProductCardSkeleton'
 
 export default function Catalog() {
 	const { category } = useAppSelector((state) => state.userActionSlice)
@@ -23,9 +23,9 @@ export default function Catalog() {
 					<div className={styles.products}>
 						{products
 							? products.map((product) => <ProductCard key={product.id} {...product} />)
-							: null}
+							: isLoading && <ProductCardSkeleton count={6} />}
 					</div>
-					{isLoading && <Loader />}
+
 					{error && <ErrorText errorText={`Can't load products :(`} />}
 				</section>
 			</Container>

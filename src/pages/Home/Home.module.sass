@@ -2,11 +2,12 @@
   background-image: url('../../images/stock2.png')
   background-size: cover
   background-position: center center
-  height: 100vh
+  min-height: 100vh
   color: #fff
 
 .wrapper
   padding-top: 200px
+  padding-bottom: 50px
   display: flex
   justify-content: center
   align-items: center
@@ -25,6 +26,7 @@
 
 .button
   margin-top: 100px
+  position: relative
   font-size: 32px
   padding: 15px 30px
   border: none
@@ -33,6 +35,30 @@
   background-color: #fff
   color: #000
   cursor: pointer
+  transition: all .3s
+  z-index: 2
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 101%
+    height: 101%
+    background-color: #000
+    transform: scaleY(0)
+    transform-origin: top
+    transition: all .3s
+    border-radius: 20px
+    border: none
+    z-index: -1
+    opacity: .3
+
+// Hover media
+@media ( hover: hover )
+  .button:hover
+    color: #fff
+    &::before
+      transform: scaleY(1)
 
 // Media
 @media screen and ( max-width: 700px )

@@ -2,12 +2,12 @@ import styles from './Categories.module.sass'
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchCategories } from '../../store/slices/categoriesSlice'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Loader from '../../ui/Loader/Loader'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import ErrorText from '../../ui/ErrorText/ErrorText'
 import { toggleCategory } from '../../store/slices/userActionSlice'
-// import { fetchAllProducts, fetchProductsByCategory } from '../../store/slices/productSlice'
+import { Link } from 'react-router-dom'
 
 export default function Categories() {
 	const { categories, isLoading, error } = useAppSelector((state) => state.categoriesSlice)
@@ -69,11 +69,15 @@ const containerVariants: Variants = {
 }
 
 function CategoriesList({ categories }: ICategoriesList) {
+	const [activeIndex, setActiveIndex] = useState<number>(-1)
 	const dispatch = useAppDispatch()
 
-	const handleCategoryClick = (category: string) => {
+	const handleCategoryClick = (category: string, index: number) => {
 		dispatch(toggleCategory(category))
+		setActiveIndex(index)
 	}
+
+	const categoriesWithAll: string[] = ['All', ...categories]
 
 	return (
 		<motion.ul
@@ -83,23 +87,23 @@ function CategoriesList({ categories }: ICategoriesList) {
 			animate='open'
 			exit='exit'
 		>
-			{categories.map((item) => (
+			{categoriesWithAll.map((item, index) => (
 				<motion.li
 					variants={variants}
 					key={item}
-					className={styles.item}
-					onClick={() => handleCategoryClick(item)}
+					className={(activeIndex === index ? styles.active : '') + ' ' + styles.item}
+					onClick={() => handleCategoryClick(item, index)}
 				>
-					{item}
+					<Link to={`/catalog`}>{item}</Link>
 				</motion.li>
 			))}
-			<motion.li
+			{/* <motion.li
 				variants={variants}
 				className={styles.item}
-				onClick={() => handleCategoryClick('')}
+				onClick={() => handleCategoryClick('', 1)}
 			>
-				All
-			</motion.li>
+				<Link to={`/catalog`}>All</Link>
+			</motion.li> */}
 		</motion.ul>
 	)
 }
