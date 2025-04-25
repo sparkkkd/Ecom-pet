@@ -9,7 +9,7 @@ import { SkeletonTheme } from 'react-loading-skeleton'
 
 createRoot(document.getElementById('root')!).render(
 	<SkeletonTheme baseColor='#eaeaea'>
-		<BrowserRouter basename='/'>
+		<BrowserRouter basename='Ecom-pet'>
 			<Provider store={store}>
 				<App />
 			</Provider>
